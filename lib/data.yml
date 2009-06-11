@@ -1,0 +1,227 @@
+# Technical details of temporary failure
+# Technical details of permanent failure
+
+error:
+  from: |-
+    MAILER-DAEMON
+    POSTMASTER
+  
+# auto.*(reply|responder|antwort)
+  
+  subject: |-
+    (returned|undelivered) mail
+    mail delivery( failed)?
+    (delivery )(status notification|failure)
+    failure notice
+    undeliver(able|ed)( mail)?
+    return(ing message|ed) to sender
+      
+  00: 
+    desc: Other undefined status is the only undefined error code. It should be used for all errors for which only the class of the error is known.
+    body: |-
+      Delivery to the following recipient failed permanently
+  
+  10:
+    desc: Something about the address specified in the message caused this DSN.
+    body: |-
+      Address rejected
+  
+  11:
+    desc: The mailbox specified in the address does not exist.  For Internet mail names, this means the address portion to the left of the '@' sign is invalid.  This code is only useful for permanent failures.
+    body: |-
+      no such (address|user)
+      Unknown_receiver
+      User unknown
+      Recipient address rejected
+      does not like recipient
+      The recipient was unavailable to take delivery of the message
+      Sorry, no mailbox here by that name
+      invalid address
+      unknown user
+      unknown local part
+      user not found
+      invalid recipient
+      failed after I sent the message
+      did not reach the following recipient
+      nicht zugestellt werden
+      This Gmail user does not exist
+      Domain name not found
+  
+  12:
+    desc: The destination system specified in the address does not exist or is incapable of accepting mail.  For Internet mail names, this means the address portion to the right of the @ is invalid for mail.  This codes is only useful for permanent failures.
+    body: |-
+      unrouteable mail domain
+      Esta casilla ha expirado por falta de uso
+      "I couldn't find any host"
+  
+#  array['13'] =  "The destination address was syntactically invalid.  This can apply to any field in the address.  This code is only useful for permanent failures."
+#  array['14'] =  "The mailbox address as specified matches one or more recipients on the destination system.  This may result if a heuristic address mapping algorithm is used to map the specified address to a local mailbox name."
+#  array['15'] =  "This mailbox address as specified was valid.  This status code should be used for positive delivery reports."
+#  array['16'] =  "The mailbox address provided was at one time valid, but mail is no longer being accepted for that address.  This code is only useful for permanent failures."
+#  array['17'] =  "The sender's address was syntactically invalid.  This can apply to any field in the address."
+#  array['18'] =  "The sender's system specified in the address does not exist or is incapable of accepting return mail.  For domain names, this means the address portion to the right of the @ is invalid for mail. "
+  
+  20:
+    desc: The mailbox exists, but something about the destination mailbox has caused the sending of this DSN.
+    body: |-
+      mailbox unavailable
+      No such mailbox
+      The account or domain may not exist, they may be blacklisted, or missing the proper dns entries
+      not yet been delivered
+      elivery attempts will continue to be made for
+  
+  21:
+    desc: The mailbox exists, but is not accepting messages.  This may be a permanent error if the mailbox will never be re-enabled or a transient error if the mailbox is only temporarily disabled.
+  
+  22:
+    desc: The mailbox is full because the user has exceeded a per-mailbox administrative quota or physical capacity.  The general semantics implies that the recipient can delete messages to make more space available.  This code should be used as a persistent transient failure.
+    body: |-
+      mailbox is full
+      Mailbox quota (usage|disk) exceeded
+      quota exceeded
+      Over quota
+      User mailbox exceeds allowed size
+      Message rejected. Not enough storage space
+      user has exhausted allowed storage space
+      too many messages on the server
+      mailbox is over quota
+      mailbox exceeds allowed size
+  
+  23:
+    desc: A per-mailbox administrative message length limit has been exceeded.  This status code should be used when the per-mailbox message length limit is less than the general system limit.  This code should be used as a permanent failure.
+    body: |-
+      account closed
+      account has been disabled or discontinued
+      mailbox not found
+      prohibited by administrator
+      access denied
+      account does not exist
+  
+#  24:
+#    desc: The mailbox is a mailing list address and the mailing list was unable to be expanded.  This code may represent a permanent failure or a persistent transient failure.
+  
+#  30:
+#   desc: The destination system exists and normally accepts mail, but something about the system has caused the generation of this DSN.
+  
+#  31:
+#    desc: Mail system storage has been exceeded.  The general semantics imply that the individual recipient may not be able to delete material to make room for additional messages.  This is useful only as a persistent transient error.
+  
+  32:
+    desc: The host on which the mailbox is resident is not accepting messages.  Examples of such conditions include an immanent shutdown, excessive load, or system maintenance.  This is useful for both permanent and permanent transient errors.
+    body: |-
+      The recipient server did not accept our requests to connect
+      Connection was dropped by remote host
+      Could not initiate SMTP conversation
+  
+#  33:
+#    desc: Selected features specified for the message are not supported by the destination system.  This can occur in gateways when features from one domain cannot be mapped onto the supported feature in another.
+  
+#  34:
+#    desc: The message is larger than per-message size limit.  This limit may either be for physical or administrative reasons. This is useful only as a permanent error.
+  
+#  35:
+#    desc: The system is not configured in a manner which will permit it to accept this message.
+  
+#  array['40'] =  "Something went wrong with the networking, but it is not clear what the problem is, or the problem cannot be well expressed with any of the other provided detail codes."
+  
+  41:
+    desc: The outbound connection attempt was not answered, either because the remote system was busy, or otherwise unable to take a call.  This is useful only as a persistent transient error.
+    body: |-
+     delivery temporarily suspended
+     "wasn't able to establish an SMTP connection"
+  
+#  array['42'] =  "The outbound connection was established, but was otherwise unable to complete the message transaction, either because of time-out, or inadequate connection quality. This is useful only as a persistent transient error."
+#  array['43'] =  "The network system was unable to forward the message, because a directory server was unavailable.  This is useful only as a persistent transient error. The inability to connect to an Internet DNS server is one example of the directory server failure error. "
+       
+  44:
+    desc: The mail system was unable to determine the next hop for the message because the necessary routing information was unavailable from the directory server. This is useful for both permanent and persistent transient errors.  A DNS lookup returning only an SOA (Start of Administration) record for a domain name is one example of the unable to route error.
+    body: |-
+      Unrouteable address
+  
+#  array['45'] =  "The mail system was unable to deliver the message because the mail system was congested. This is useful only as a persistent transient error."
+#  array['46'] =  "A routing loop caused the message to be forwarded too many times, either because of incorrect routing tables or a user forwarding loop. This is useful only as a persistent transient error."
+  
+  47:
+    desc: The message was considered too old by the rejecting system, either because it remained on that host too long or because the time-to-live value specified by the sender of the message was exceeded. If possible, the code for the actual problem found when delivery was attempted should be returned rather than this code.  This is useful only as a persistent transient error.
+    body: |-
+        retry timeout exceeded
+  
+  50:
+    desc: Something was wrong with the protocol necessary to deliver the message to the next hop and the problem cannot be well expressed with any of the other provided detail codes.
+    body: |-
+      Mail rejected by Windows Live Hotmail for policy reasons
+  
+#  array['51'] =  "A mail transaction protocol command was issued which was either out of sequence or unsupported.  This is useful only as a permanent error."
+#  array['52'] =  "A mail transaction protocol command was issued which could not be interpreted, either because the syntax was wrong or the command is unrecognized. This is useful only as a permanent error."
+#  array['53'] =  "More recipients were specified for the message than could have been delivered by the protocol.  This error should normally result in the segmentation of the message into two, the remainder of the recipients to be delivered on a subsequent delivery attempt.  It is included in this list in the event that such segmentation is not possible."
+  
+  54:
+    desc: A valid mail transaction protocol command was issued with invalid arguments, either because the arguments were out of range or represented unrecognized features. This is useful only as a permanent error. 
+    body: |-
+     554 TRANSACTION FAILED
+     554 delivery error
+  
+#  array['55'] =  "A protocol version mis-match existed which could not be automatically resolved by the communicating parties."
+#  array['60'] =  "Something about the content of a message caused it to be considered undeliverable and the problem cannot be well expressed with any of the other provided detail codes. "
+#  array['61'] =  "The media of the message is not supported by either the delivery protocol or the next system in the forwarding path. This is useful only as a permanent error."
+#  array['62'] =  "The content of the message must be converted before it can be delivered and such conversion is not permitted.  Such prohibitions may be the expression of the sender in the message itself or the policy of the sending host."
+#  array['63'] =  "The message content must be converted to be forwarded but such conversion is not possible or is not practical by a host in the forwarding path.  This condition may result when an ESMTP gateway supports 8bit transport but is not able to downgrade the message to 7 bit as required for the next hop."
+#  array['64'] =  "This is a warning sent to the sender when message delivery was successfully but when the delivery required a conversion in which some data was lost.  This may also be a permanant error if the sender has indicated that conversion with loss is prohibited for the message."
+#  array['65'] =  "A conversion was required but was unsuccessful.  This may be useful as a permanent or persistent temporary notification."
+#  array['70'] =  "Something related to security caused the message to be returned, and the problem cannot be well expressed with any of the other provided detail codes.  This status code may also be used when the condition cannot be further described because of security policies in force."
+  
+  71:
+    desc: The sender is not authorized to send to the destination. This can be the result of per-host or per-recipient filtering.  This memo does not discuss the merits of any such filtering, but provides a mechanism to report such. This is useful only as a permanent error.
+    body: |-
+      Your message.*?was blocked by ROTA DNSBL
+
+#  array['72'] =  "The sender is not authorized to send a message to the intended mailing list. This is useful only as a permanent error."
+#  array['73'] =  "A conversion from one secure messaging protocol to another was required for delivery and such conversion was not possible. This is useful only as a permanent error. "
+#  array['74'] =  "A message contained security features such as secure authentication which could not be supported on the delivery protocol. This is useful only as a permanent error."
+#  array['75'] =  "A transport system otherwise authorized to validate or decrypt a message in transport was unable to do so because necessary information such as key was not available or such information was invalid."
+#  array['76'] =  "A transport system otherwise authorized to validate or decrypt a message was unable to do so because the necessary algorithm was not supported. "
+#  array['77'] =  "A transport system otherwise authorized to validate a message was unable to do so because the message was corrupted or altered.  This may be useful as a permanent, transient persistent, or successful delivery code."
+  
+  81:
+    desc: wrong attachment
+  subject: |-
+    (unzulässiger|unerlaubter) anhang
+
+
+new_address:
+  desc: user has new address
+  subject: |-
+    New (email )?address
+    Neue (email)?Adresse
+    Aenderung der Mail-Adresse
+    
+    
+vacation:
+  desc: Vacation auto-reply
+  subject: |-
+    auto.*reply
+    vacation
+    vocation
+    (out|away).*office
+    on holiday
+    abwesenheits
+    autorespond
+
+
+delayed:
+  desc: email is delayed
+  subject: |-
+    delayed
+
+
+success:
+  desc: Received, Success
+  subject: |-
+   Automatische
+   eingangsbestätigung
+
+
+warning:
+  desc: Warning
+  
+  
