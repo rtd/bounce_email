@@ -1,5 +1,6 @@
 # Technical details of temporary failure
 # Technical details of permanent failure
+# 
 
 error:
   from: |-
@@ -15,7 +16,10 @@ error:
     failure notice
     undeliver(able|ed)( mail)?
     return(ing message|ed) to sender
-      
+  
+  code: |-
+    (Status:.|550 |#)([0-9]\.[0-9]\.[0-9])
+
   00: 
     desc: Other undefined status is the only undefined error code. It should be used for all errors for which only the class of the error is known.
     body: |-
@@ -184,8 +188,8 @@ error:
   
   81:
     desc: wrong attachment
-  subject: |-
-    (unzulässiger|unerlaubter) anhang
+    subject: |-
+      (unzulässiger|unerlaubter) anhang
 
 
 new_address:
