@@ -18,7 +18,7 @@ module BounceEmail
 
     def is_bounce?( full_parse = false)
       return full_code if full_parse
-      @full_code #don't parse body
+      @full_code #don't parse body, only on demand
     end
 
     def reason
@@ -29,8 +29,12 @@ module BounceEmail
       full_code[0]
     end
 
-    def code
+    def code_nr
       full_code[1]
+    end
+
+    def code
+      "#{full_code[0]}.#{full_code[1][0]}.#{full_code[1][1]}"
     end
 
     def matched
@@ -58,7 +62,7 @@ module BounceEmail
 
     private
     def all_bodies
-      @mail.body + @mail.parts.map(&:body).join
+      @mail.body + @mail.parts.map { |m| m.body }.join #&:body doesn't work here
     end
 
     #################################################################
@@ -80,10 +84,10 @@ module BounceEmail
   class Parse
 
     @@rules = { :subject => {}, :from => {}, :body => {}, :code => {} }
-    @@raw_rules = YAML.load_file('lib/data.yml')
+    @@raw_rules = YAML.load_file( File.dirname(__FILE__) + '/data.yml')
 
     def self.process(key, data)
-      rules[key].each do |critera, error|
+      rules[key].each do |criteria, error|
         return error << $1 if data =~ /#{criteria}/
       end
       nil
