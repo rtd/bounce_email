@@ -204,7 +204,7 @@ module BounceEmail
     end
 
     def get_original_mail(mail) #worked alright for me, for sure this as to be extended
-      parts = mail.body.split("--- Below this line is a copy of the message.\r\n\r\n")
+      parts = mail.body.to_s.split("--- Below this line is a copy of the message.\r\n\r\n")
       if parts.size > 1
         ::Mail.new(parts.last)
       elsif mail.parts
