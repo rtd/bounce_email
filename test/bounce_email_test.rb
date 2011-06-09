@@ -103,4 +103,11 @@ class BounceEmailTest < Test::Unit::TestCase
     assert_not_nil bounce.original_mail
   end
   
+  #Test regexp in when parsing the original email
+  def test_multipart
+   bounce = test_bounce('tt_bounce_25')
+    assert bounce.bounced?
+    assert_not_nil bounce.original_mail
+  end
+  
 end
