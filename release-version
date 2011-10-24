@@ -1,0 +1,6 @@
+#!/bin/bash
+
+NAME="bounce_email"
+
+git push
+gem build $NAME.gemspec && gem push $NAME-* && rm -f $NAME-*
