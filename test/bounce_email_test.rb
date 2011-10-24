@@ -94,4 +94,20 @@ class BounceEmailTest < Test::Unit::TestCase
     assert bounce.body
     assert bounce.date
   end
+  
+  #Test mutlipart message from exchange
+  def test_multipart
+    bounce = test_bounce('tt_bounce_24')
+    assert bounce.bounced?
+    assert_equal BounceEmail::TYPE_HARD_FAIL, bounce.type
+    assert_not_nil bounce.original_mail
+  end
+  
+  #Test regexp in when parsing the original email
+  def test_multipart
+   bounce = test_bounce('tt_bounce_25')
+    assert bounce.bounced?
+    assert_not_nil bounce.original_mail
+  end
+  
 end
