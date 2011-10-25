@@ -30,21 +30,22 @@ module BounceEmail
       end
     end
 
-
     def bounced?
       @bounced ||= check_if_bounce(@mail) || (diagnostic_code != "unknown") || (error_status != "unknown")
     end
-    alias_method :is_bounce?, :bounced? #to stay backwards compatible
 
     def diagnostic_code
       @diagnostic_code ||= get_reason_from_status_code(code)
     end
-    alias_method :reason, :diagnostic_code #to stay backwards compatible
 
     def error_status
       @error_status ||= get_code(@mail)
     end
-    alias_method :code, :error_status #to stay backwards compatible
+
+    # backward compatibility
+    alias_method :is_bounce?, :bounced?
+    alias_method :reason, :diagnostic_code
+    alias_method :code, :error_status
 
 =begin  #Streamline with Mail Gem methods - IMPLEMENT ME!
     def final_recipien?
@@ -70,6 +71,7 @@ module BounceEmail
     end
 
     private
+
     def get_code(mail)
       unicode_subject = mail.subject
       unicode_subject = unicode_subject.encode('utf-8') if unicode_subject.respond_to?(:encode)
@@ -216,6 +218,5 @@ module BounceEmail
     rescue => e
       nil
     end
-
   end
 end
