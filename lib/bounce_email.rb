@@ -65,8 +65,8 @@ module BounceEmail
       @original_mail ||= get_original_mail(@mail)
     end
 
-    def method_missing(m, *args)
-      @mail.send(m, *args)
+    def method_missing(m, *args, &block)
+      @mail.send(m, *args, &block)
     end
 
     private
