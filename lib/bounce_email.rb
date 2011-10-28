@@ -73,10 +73,10 @@ module BounceEmail
     private
 
     def get_code(mail)
-      unicode_subject = mail.subject
+      unicode_subject = mail.subject.to_s
       unicode_subject = unicode_subject.encode('utf-8') if unicode_subject.respond_to?(:encode)
 
-      return '97' if mail.subject.match(/delayed/i)
+      return '97' if unicode_subject.match(/delayed/i)
       return '98' if unicode_subject.match(/(unzulässiger|unerlaubter) anhang/i)
       return '99' if unicode_subject.match(/auto.*reply|vacation|vocation|(out|away).*office|on holiday|abwesenheits|autorespond|Automatische|eingangsbestätigung/i)
 
@@ -205,8 +205,8 @@ module BounceEmail
     end
 
     def check_if_bounce(mail)
-      return true if mail.subject.match(/(returned|undelivered) mail|mail delivery( failed)?|(delivery )(status notification|failure)|failure notice|undeliver(able|ed)( mail)?|return(ing message|ed) to sender/i)
-      return true if mail.subject.match(/auto.*reply|vacation|vocation|(out|away).*office|on holiday|abwesenheits|autorespond|Automatische|eingangsbestätigung/i)
+      return true if mail.subject.to_s.match(/(returned|undelivered) mail|mail delivery( failed)?|(delivery )(status notification|failure)|failure notice|undeliver(able|ed)( mail)?|return(ing message|ed) to sender/i)
+      return true if mail.subject.to_s.match(/auto.*reply|vacation|vocation|(out|away).*office|on holiday|abwesenheits|autorespond|Automatische|eingangsbestätigung/i)
       return true if mail['precedence'].to_s.match(/auto.*(reply|responder|antwort)/i)
       return true if mail.from.to_s.match(/^(MAILER-DAEMON|POSTMASTER)\@/i)
       false
