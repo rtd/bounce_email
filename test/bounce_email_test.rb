@@ -88,13 +88,17 @@ class BounceEmailTest < Test::Unit::TestCase
     end
   end
 
+  def test_does_not_fail_if_subject_is_nil
+    bounce = BounceEmail::Mail.new load_email('no_subject')
+    assert !bounce.bounced?
+  end
 
   def test_mail_methods_fallback
     bounce = test_bounce('tt_bounce_10')
     assert bounce.body
     assert bounce.date
   end
-  
+
   #Test mutlipart message from exchange
   def test_multipart
     bounce = test_bounce('tt_bounce_24')
@@ -102,12 +106,21 @@ class BounceEmailTest < Test::Unit::TestCase
     assert_equal BounceEmail::TYPE_HARD_FAIL, bounce.type
     assert_not_nil bounce.original_mail
   end
-  
+
   #Test regexp in when parsing the original email
   def test_multipart
    bounce = test_bounce('tt_bounce_25')
     assert bounce.bounced?
     assert_not_nil bounce.original_mail
   end
-  
+
+  private
+
+  def load_email(name, prefix = 'fixtures')
+    default_extention = '.txt'
+    name << default_extention unless name.end_with?(default_extention)
+
+    path = File.join(File.dirname(__FILE__), prefix, name)
+    Mail.read(path)
+  end
 end
