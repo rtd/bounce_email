@@ -24,7 +24,8 @@ Basic usage:
 
 ## REQUIREMENTS:
 
-Ruby 1.9 & Ruby Gem Mail is required. The gem is used for primary bounce handling, which catches about 50% of all bounces.
+Ruby 1.8.7 or 1.9.x and the [mail](http://rubygems.org/gems/mail) Ruby gem are required.
+The gem is used for primary bounce handling, which catches about 50% of all bounces.
 For most other bounces, this gem comes in. See discussion here: [https://github.com/mikel/mail/issues/103](https://github.com/mikel/mail/issues/103)
 
 ## Other implementations:
@@ -34,11 +35,11 @@ For most other bounces, this gem comes in. See discussion here: [https://github.
 
 ## TODO:
 
-  * code cleanup!!! Oh yes!
-  * don't hardcode comparison strings, move to external file which can be extended easily
-  * more test: extend for more bounces
-  * is OUT of office type needed? if yes implement as optional part
-  * merge into Mail Gem??
+  * Mode code cleanup.
+  * Don't hardcode comparison strings, move to external file which can be extended easily.
+  * More test: extend for more bounces.
+  * Is OUT of office type needed? If yes, implement as an optional part.
+  * Merge into Mail Gem?
 
 ## CONTRIBUTIONS:
 
