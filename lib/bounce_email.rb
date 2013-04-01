@@ -123,6 +123,7 @@ module BounceEmail
       return "5.5.4" if email.match(/554 delivery error:/i)
       return "5.1.1" if email.match(/550-5.1.1|This Gmail user does not exist/i)
       return "5.7.1" if email.match(/5.7.1 Your message.*?was blocked by ROTA DNSBL/i) # AA added
+      return "5.7.1" if email.match(/571 Message Refused/i) # per message filtering
       return "5.3.2" if email.match(/Technical details of permanent failure|Too many bad recipients/i)  && (email.match(/The recipient server did not accept our requests to connect/i) || email.match(/Connection was dropped by remote host/i) || email.match(/Could not initiate SMTP conversation/i)) # AA added
       return "4.3.2" if email.match(/Technical details of temporary failure/i) && (email.match(/The recipient server did not accept our requests to connect/i) || email.match(/Connection was dropped by remote host/i) || email.match(/Could not initiate SMTP conversation/i)) # AA added
       return "5.0.0" if email.match(/Delivery to the following recipient failed permanently/i) # AA added
